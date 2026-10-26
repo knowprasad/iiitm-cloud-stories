@@ -112,7 +112,6 @@ export const googleCloudStudyJams2026: EventConfig = {
     { id: '10x-builder', label: '10x Builder', emoji: '🚀' },
     { id: 'gdg-member', label: 'GDG on Campus', emoji: '❤️' },
     { id: 'open-source', label: 'Open Source', emoji: '🌐' },
-    { id: 'jam-certified', label: 'Jam Certified', emoji: '🏆' },
   ],
   defaultRole: 'Student Builder',
   defaultTrack: 'genai',

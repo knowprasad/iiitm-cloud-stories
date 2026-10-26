@@ -34,3 +34,9 @@ yarn-error.log*
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Vercel local project links and pulled settings
+.vercel
+
+.vercel
+.env*

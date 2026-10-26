@@ -2,6 +2,8 @@
 
 A playful, student-only story-card generator for GDG on Campus ABV-IIITM Gwalior.
 
+**[Try the live site](https://iiitm-cloud-stories-review.vercel.app)** · [Source on GitHub](https://github.com/knowprasad/iiitm-cloud-stories)
+
 Built with React 19, TypeScript, Vite, and the Canvas API. The website layout takes inspiration from [DevFest Bhopal's badge studio](https://devfest.bhopal.dev/badge), while the three illustrated card templates are made for this campus. Design notes and references are in [docs/design-direction.md](docs/design-direction.md).
 
 ## Make a story

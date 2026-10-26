@@ -9,59 +9,60 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ event, onOpenEventModal }) => {
   return (
-    <header className="relative mx-auto w-full max-w-6xl px-4 pt-6 pb-4 sm:px-6 sm:pt-10 lg:px-8">
-      {/* Top Bar: Event Badge & Campaign Switcher */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-df-border/60">
-        <div className="flex items-center gap-2.5">
-          {/* GDG Brackets SVG */}
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-df-bg-raised border border-df-border shadow-sm">
-            <span className="font-mono font-bold text-xs tracking-tighter">
-              <span className="text-google-blue">&lt;</span>
-              <span className="text-google-red">/</span>
-              <span className="text-google-green">&gt;</span>
+    <header className="relative mx-auto w-full max-w-6xl px-4 pt-4 pb-2 sm:px-6 sm:pt-8 lg:px-8">
+      {/* Top Glassmorphic Navigation Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-white/10">
+        <div className="flex items-center gap-3">
+          {/* Glowing Google 4-Color Brackets */}
+          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/5 border border-white/10 shadow-inner">
+            <span className="font-mono font-bold text-sm tracking-tighter">
+              <span className="text-[#4285F4]">&lt;</span>
+              <span className="text-[#EA4335]">/</span>
+              <span className="text-[#34A853]">&gt;</span>
             </span>
           </div>
           <div>
-            <div className="text-xs font-black uppercase tracking-wider text-df-fg">
-              {event.organization}
+            <div className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+              <span>{event.organization}</span>
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34A853] animate-ping" />
             </div>
-            <div className="text-[11px] font-medium text-df-fg/60">
-              {event.community}
+            <div className="text-[11px] font-mono text-white/50">
+              {event.community} • ASIA-SOUTH
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-df-bg-raised border border-df-border text-[11px] font-bold text-df-fg/75">
-            <Calendar className="w-3.5 h-3.5 text-google-blue" />
+        <div className="flex items-center gap-2.5">
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono text-white/70">
+            <Calendar className="w-3.5 h-3.5 text-[#4285F4]" />
             <span>{event.date}</span>
           </div>
 
           <button
             type="button"
             onClick={onOpenEventModal}
-            className="flex items-center gap-1.5 rounded-full border border-df-border bg-df-bg-raised px-3 py-1.5 text-xs font-bold text-df-fg hover:border-df-fg/40 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-df-blue"
+            className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 px-3.5 py-1.5 text-xs font-bold text-white transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] cursor-pointer"
             title="Switch Campaign / Event"
           >
-            <Layers className="w-3.5 h-3.5 text-df-purple" />
-            <span className="hidden xs:inline">Campaign:</span>
-            <span className="text-google-blue">{event.title}</span>
+            <Layers className="w-3.5 h-3.5 text-[#A142F4]" />
+            <span className="hidden xs:inline text-white/60">Campaign:</span>
+            <span className="text-[#4285F4] font-black">{event.title}</span>
           </button>
         </div>
       </div>
 
       {/* Hero Headline & Subtitle */}
-      <div className="mt-8 text-center sm:mt-10">
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-google-blue/10 border border-google-blue/20 px-3 py-1 text-xs font-extrabold text-google-blue mb-3">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>{event.edition}</span>
+      <div className="mt-8 text-center sm:mt-12">
+        <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/15 px-3.5 py-1 text-xs font-mono font-bold text-[#8AB4F8] mb-4 shadow-[0_0_20px_rgba(66,133,244,0.15)]">
+          <Sparkles className="w-3.5 h-3.5 text-[#FBBC04]" />
+          <span>OFFICIAL ATTENDEE BADGE STUDIO • {event.edition.toUpperCase()}</span>
         </div>
-        <h1 className="text-3xl font-black tracking-tight text-df-fg sm:text-5xl lg:text-6xl">
-          Pass secured. Now flex it! 🎟️
+        <h1 className="text-3xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
+          Pass secured. <span className="bg-gradient-to-r from-[#4285F4] via-[#A142F4] to-[#FBBC04] bg-clip-text text-transparent">Now flex it!</span> 🎟️
         </h1>
-        <p className="mx-auto mt-2 max-w-2xl text-xs text-df-fg/75 sm:mt-3.5 sm:text-base leading-relaxed">
-          Add your photo and name, then share your custom card on LinkedIn, Instagram, or X. 
-          Celebrate your learning journey with the community!
+        <p className="mx-auto mt-3 max-w-2xl text-xs text-slate-400 sm:mt-4 sm:text-base leading-relaxed">
+          Mint your personalized credential with official Google Cloud & GDG on Campus branding. 
+          Ready to share on LinkedIn, Instagram, and X!
         </p>
       </div>
     </header>

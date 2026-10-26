@@ -39,17 +39,15 @@ export const App: React.FC = () => {
     setFormData((prev) => ({ ...prev, ...updated }));
   };
 
-  // Helper: Trigger celebratory confetti burst
   const triggerConfetti = () => {
     confetti({
-      particleCount: 90,
-      spread: 70,
+      particleCount: 100,
+      spread: 75,
       origin: { y: 0.65 },
       colors: ['#4285F4', '#EA4335', '#FBBC04', '#34A853', '#A142F4'],
     });
   };
 
-  // Generate high-resolution Blob using an offscreen canvas
   const generateBadgeBlob = async (): Promise<Blob | null> => {
     const offscreenCanvas = document.createElement('canvas');
     let loadedImg: HTMLImageElement | null = null;
@@ -68,10 +66,9 @@ export const App: React.FC = () => {
     });
   };
 
-  // Share action (Web Share API or fallback)
   const handleShare = async () => {
     setIsExporting(true);
-    setStatusMessage('Generating high-resolution badge...');
+    setStatusMessage('Rendering high-res master badge...');
 
     try {
       const blob = await generateBadgeBlob();
@@ -103,10 +100,9 @@ export const App: React.FC = () => {
     }
   };
 
-  // Direct download action
   const handleDownload = async () => {
     setIsExporting(true);
-    setStatusMessage('Rendering high-res PNG...');
+    setStatusMessage('Rendering crisp 2x PNG...');
 
     try {
       const blob = await generateBadgeBlob();
@@ -127,7 +123,14 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-df-bg text-df-fg">
+    <div className="relative min-h-screen flex flex-col bg-[#080c16] text-white selection:bg-[#FBBC04] selection:text-black overflow-x-hidden">
+      {/* Ambient Lighting Blooms behind the workspace */}
+      <div className="absolute top-0 left-1/4 w-[600px] h-[500px] rounded-full bg-[#4285F4]/12 blur-[140px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-[#A142F4]/12 blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: '3s' }} />
+
+      {/* Subtle Technical Dot-Matrix Grid Overlay */}
+      <div className="absolute inset-0 tech-dot-grid opacity-60 pointer-events-none" />
+
       {/* Hidden File Input for quick upload from preview overlay */}
       <input
         ref={hiddenFileInputRef}
@@ -151,8 +154,8 @@ export const App: React.FC = () => {
         }}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 pb-24 pt-4 sm:pt-6">
+      {/* Main Studio Content */}
+      <main className="relative z-10 flex-1 pb-24 pt-2 sm:pt-4">
         <Header
           event={currentEvent}
           onOpenEventModal={() => setIsEventModalOpen(true)}
@@ -214,19 +217,19 @@ export const App: React.FC = () => {
         onClose={() => setIsEventModalOpen(false)}
       />
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-df-border/60 py-8 text-center text-xs text-df-fg/60">
-        <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 font-medium">
-            <span>Built with ❤️ for</span>
-            <span className="font-bold text-df-fg">{currentEvent.community}</span>
-            <span>• Google Cloud Study Jams 2026</span>
+      {/* Studio Footer */}
+      <footer className="relative z-10 mt-auto border-t border-white/10 py-8 text-center text-xs text-slate-400">
+        <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono">
+          <div className="flex items-center gap-2">
+            <span>ENGINEERED FOR</span>
+            <span className="font-bold text-white">{currentEvent.community.toUpperCase()}</span>
+            <span>• GOOGLE CLOUD STUDY JAMS 2026</span>
           </div>
 
-          <div className="flex items-center gap-4 text-df-fg/50">
-            <span>Client-side private rendering</span>
+          <div className="flex items-center gap-4 text-slate-500">
+            <span>100% Client-Side Privacy</span>
             <span>•</span>
-            <span>No account required</span>
+            <span>Zero Server Photo Persistence</span>
           </div>
         </div>
       </footer>

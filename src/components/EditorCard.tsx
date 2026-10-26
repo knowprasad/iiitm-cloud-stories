@@ -30,7 +30,6 @@ export const EditorCard: React.FC<EditorCardProps> = ({
   const [githubLoading, setGithubLoading] = useState(false);
   const [githubError, setGithubError] = useState<string | null>(null);
 
-  // File upload handler
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -55,11 +54,9 @@ export const EditorCard: React.FC<EditorCardProps> = ({
       }
     };
     reader.readAsDataURL(file);
-    // Reset file input so same file can be re-uploaded if desired
     e.target.value = '';
   };
 
-  // GitHub avatar fetcher
   const handleFetchGithub = async () => {
     if (!githubUser.trim()) return;
     setGithubLoading(true);
@@ -80,7 +77,6 @@ export const EditorCard: React.FC<EditorCardProps> = ({
     }
   };
 
-  // Sticker toggle (up to 3)
   const toggleSticker = (stickerId: string) => {
     const current = [...data.stickers];
     const index = current.indexOf(stickerId);
@@ -89,7 +85,6 @@ export const EditorCard: React.FC<EditorCardProps> = ({
       current.splice(index, 1);
     } else {
       if (current.length >= 3) {
-        // Shift oldest out to keep max 3
         current.shift();
       }
       current.push(stickerId);
@@ -98,7 +93,7 @@ export const EditorCard: React.FC<EditorCardProps> = ({
   };
 
   return (
-    <div className="min-w-0 rounded-2xl border border-df-border bg-df-bg-raised p-4 shadow-xl sm:rounded-3xl sm:p-7">
+    <div className="min-w-0 rounded-3xl border border-white/10 bg-[#0e1322]/90 backdrop-blur-2xl p-5 shadow-2xl sm:p-7 text-white">
       <input
         ref={fileInputRef}
         type="file"
@@ -108,18 +103,29 @@ export const EditorCard: React.FC<EditorCardProps> = ({
         onChange={handleFileChange}
       />
 
-      <h2 className="text-xl font-black text-df-fg sm:text-2xl">
-        Make it yours
-      </h2>
+      <div className="flex items-center justify-between pb-4 border-b border-white/10">
+        <div>
+          <h2 className="text-xl font-black text-white sm:text-2xl tracking-tight">
+            Personalize Credential
+          </h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Configure your attendee pass details in real time
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-[#8AB4F8]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#34A853] animate-pulse" />
+          <span>LIVE ENGINE</span>
+        </div>
+      </div>
 
       <div className="mt-5 space-y-5">
         {/* 1. Photo Upload Row */}
-        <div className="flex items-center gap-3.5">
+        <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/5 border border-white/10">
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             aria-label="Upload your photo"
-            className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-dashed border-google-blue/40 bg-google-blue/5 text-xl flex items-center justify-center transition-all hover:border-google-blue hover:bg-google-blue/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+            className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-dashed border-[#4285F4]/60 bg-[#4285F4]/10 text-xl flex items-center justify-center transition-all hover:border-[#4285F4] hover:bg-[#4285F4]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] cursor-pointer"
           >
             {data.photoUrl ? (
               <img
@@ -128,7 +134,7 @@ export const EditorCard: React.FC<EditorCardProps> = ({
                 className="h-full w-full object-cover"
               />
             ) : (
-              <Camera className="w-6 h-6 text-google-blue group-hover:scale-110 transition-transform" />
+              <Camera className="w-6 h-6 text-[#8AB4F8] group-hover:scale-110 transition-transform" />
             )}
           </button>
 
@@ -137,7 +143,7 @@ export const EditorCard: React.FC<EditorCardProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="rounded-xl bg-df-fg px-4 py-2 text-xs font-black uppercase tracking-wider text-df-bg shadow-sm transition-transform active:scale-95 hover:bg-df-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+                className="rounded-xl bg-white hover:bg-slate-200 text-black px-4 py-2 text-xs font-black uppercase tracking-wider shadow-sm transition-transform active:scale-95 cursor-pointer"
               >
                 {data.photoUrl ? 'Change photo' : 'Upload photo'}
               </button>
@@ -147,16 +153,16 @@ export const EditorCard: React.FC<EditorCardProps> = ({
                   <button
                     type="button"
                     onClick={onOpenPhotoAdjust}
-                    className="flex items-center gap-1 rounded-xl border border-df-border bg-df-bg px-3 py-2 text-xs font-bold text-df-fg hover:border-df-fg/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+                    className="flex items-center gap-1 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 px-3 py-2 text-xs font-bold text-white transition-colors cursor-pointer"
                   >
-                    <Sliders className="w-3.5 h-3.5" />
+                    <Sliders className="w-3.5 h-3.5 text-[#FBBC04]" />
                     <span>Crop & Zoom</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => onChange({ photoUrl: null })}
-                    className="flex items-center justify-center rounded-xl border border-red-200 bg-red-50 p-2 text-red-600 hover:bg-red-100 transition-colors"
+                    className="flex items-center justify-center rounded-xl border border-red-500/30 bg-red-500/10 p-2 text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
                     title="Remove Photo"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -164,8 +170,8 @@ export const EditorCard: React.FC<EditorCardProps> = ({
                 </>
               )}
             </div>
-            <div className="mt-1 text-[11px] text-df-fg/60">
-              Supports JPG, PNG, WebP (processed locally)
+            <div className="mt-1 text-[11px] font-mono text-slate-400">
+              Processed locally • JPG, PNG, WebP
             </div>
           </div>
         </div>
@@ -175,11 +181,11 @@ export const EditorCard: React.FC<EditorCardProps> = ({
           <div className="flex items-center justify-between">
             <label
               htmlFor="full-name"
-              className="block text-xs font-bold uppercase tracking-wider text-df-fg/70"
+              className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300"
             >
-              Your name
+              Attendee Name
             </label>
-            <span className="text-[10px] font-mono text-df-fg/40">
+            <span className="text-[10px] font-mono text-slate-500">
               {data.fullName.length}/40
             </span>
           </div>
@@ -187,10 +193,10 @@ export const EditorCard: React.FC<EditorCardProps> = ({
             id="full-name"
             type="text"
             maxLength={40}
-            placeholder="e.g. Priya Sharma"
+            placeholder="e.g. Alex Johnson"
             value={data.fullName}
             onChange={(e) => onChange({ fullName: e.target.value })}
-            className="mt-1.5 w-full rounded-xl border border-df-border bg-df-bg px-3.5 py-2.5 text-base font-bold text-df-fg shadow-xs outline-none transition-all focus:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue"
+            className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-2.5 text-base font-bold text-white shadow-inner outline-none transition-all focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/30"
           />
         </div>
 
@@ -198,14 +204,14 @@ export const EditorCard: React.FC<EditorCardProps> = ({
         <div>
           <span
             id="theme-label"
-            className="block text-xs font-bold uppercase tracking-wider text-df-fg/70"
+            className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-300"
           >
-            Theme
+            Aesthetic Theme
           </span>
           <div
             role="radiogroup"
             aria-labelledby="theme-label"
-            className="mt-2 flex flex-wrap gap-2"
+            className="mt-2 flex flex-wrap gap-2.5"
           >
             {event.themes.map((theme) => {
               const isSelected = data.themeId === theme.id;
@@ -217,15 +223,15 @@ export const EditorCard: React.FC<EditorCardProps> = ({
                   aria-checked={isSelected}
                   onClick={() => onChange({ themeId: theme.id })}
                   title={theme.description}
-                  className={`flex items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3.5 text-xs font-black transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue ${
+                  className={`flex items-center gap-2.5 rounded-full border py-1.5 pl-1.5 pr-4 text-xs font-black transition-all active:scale-95 cursor-pointer ${
                     isSelected
-                      ? 'border-df-fg bg-df-fg text-df-bg shadow-sm'
-                      : 'border-df-border bg-df-bg text-df-fg hover:border-df-fg/40'
+                      ? 'border-[#4285F4] bg-[#4285F4]/20 text-white shadow-[0_0_15px_rgba(66,133,244,0.3)] ring-1 ring-[#4285F4]'
+                      : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/30 hover:bg-white/10'
                   }`}
                 >
                   <span
                     aria-hidden="true"
-                    className="h-6 w-6 shrink-0 rounded-full border border-black/15 shadow-inner"
+                    className="h-6 w-6 shrink-0 rounded-full border border-white/20 shadow-inner"
                     style={{ background: theme.swatchGradient }}
                   />
                   <span>{theme.name}</span>
@@ -236,32 +242,32 @@ export const EditorCard: React.FC<EditorCardProps> = ({
         </div>
 
         {/* 4. Expandable Accordion: More Options */}
-        <details className="group rounded-2xl border border-df-border bg-df-bg overflow-hidden" open>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-3.5 text-xs font-black uppercase tracking-wider text-df-fg hover:bg-df-bg-raised transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue">
+        <details className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden" open>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-3.5 text-xs font-mono font-black uppercase tracking-wider text-slate-200 hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4]">
             <span>
-              More options
-              <span className="ml-1.5 font-normal normal-case tracking-normal text-df-fg/60">
-                @handle, size, role, stickers
+              Advanced Telemetry
+              <span className="ml-2 font-sans font-normal normal-case text-slate-400">
+                @handle, size, role, tracks, stickers
               </span>
             </span>
-            <ChevronDown className="w-4 h-4 text-df-fg/50 transition-transform group-open:rotate-180" />
+            <ChevronDown className="w-4 h-4 text-slate-400 transition-transform group-open:rotate-180" />
           </summary>
 
-          <div className="space-y-4 p-3.5 pt-1 border-t border-df-border/50">
+          <div className="space-y-4 p-4 pt-2 border-t border-white/10">
             {/* GitHub Avatar Fetcher */}
             <div>
-              <label htmlFor="github-handle" className="block text-[11px] font-bold uppercase tracking-wider text-df-fg/70 mb-1">
-                GitHub Photo Fetcher
+              <label htmlFor="github-handle" className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                GitHub Photo & Identity Fetcher
               </label>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <div className="relative flex-1">
-                  <svg className="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-df-fg/40 fill-current" viewBox="0 0 24 24">
+                  <svg className="absolute left-3 top-2.5 w-4 h-4 text-slate-400 fill-current" viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                   </svg>
                   <input
                     id="github-handle"
                     type="text"
-                    placeholder="or enter GitHub username"
+                    placeholder="Enter GitHub username"
                     value={githubUser}
                     onChange={(e) => setGithubUser(e.target.value)}
                     onKeyDown={(e) => {
@@ -270,24 +276,24 @@ export const EditorCard: React.FC<EditorCardProps> = ({
                         handleFetchGithub();
                       }
                     }}
-                    className="w-full rounded-lg border border-df-border bg-df-bg-raised pl-8 pr-2.5 py-1.5 text-xs font-bold text-df-fg outline-none focus:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue"
+                    className="w-full rounded-xl border border-white/10 bg-black/40 pl-9 pr-3 py-2 text-xs font-mono font-bold text-white outline-none focus:border-[#4285F4]"
                   />
                 </div>
                 <button
                   type="button"
                   disabled={githubLoading || !githubUser.trim()}
                   onClick={handleFetchGithub}
-                  className="flex items-center gap-1 shrink-0 rounded-lg border border-df-border bg-df-bg-raised px-3 py-1.5 text-xs font-bold text-df-fg hover:border-df-fg disabled:opacity-40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+                  className="flex items-center gap-1 shrink-0 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2 text-xs font-bold text-white hover:bg-white/20 disabled:opacity-40 transition-colors cursor-pointer"
                 >
                   {githubLoading ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                   ) : (
-                    <span>Fetch</span>
+                    <span>Fetch Photo</span>
                   )}
                 </button>
               </div>
               {githubError && (
-                <p className="mt-1 text-[11px] font-semibold text-google-red">
+                <p className="mt-1 text-[11px] font-semibold text-[#EA4335]">
                   {githubError}
                 </p>
               )}
@@ -298,103 +304,103 @@ export const EditorCard: React.FC<EditorCardProps> = ({
               <div>
                 <label
                   htmlFor="badge-kind"
-                  className="block text-xs font-bold uppercase tracking-wider text-df-fg/70"
+                  className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-400"
                 >
-                  I’m
+                  Clearance / Role
                 </label>
                 <select
                   id="badge-kind"
                   value={data.kind}
                   onChange={(e) => onChange({ kind: e.target.value as AttendeeKind })}
-                  className="mt-1.5 w-full rounded-xl border border-df-border bg-df-bg-raised px-3 py-2 text-sm font-bold text-df-fg shadow-xs outline-none transition-all focus:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue sm:w-auto"
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/50 px-3.5 py-2 text-sm font-bold text-white outline-none focus:border-[#4285F4] sm:w-auto"
                 >
-                  <option value="attendee">attending</option>
-                  <option value="speaker">speaking</option>
-                  <option value="volunteer">volunteering</option>
-                  <option value="facilitator">facilitating</option>
+                  <option value="attendee">Attending</option>
+                  <option value="speaker">Speaking</option>
+                  <option value="volunteer">Volunteering</option>
+                  <option value="facilitator">Facilitating</option>
                 </select>
               </div>
 
               <div>
                 <label
                   htmlFor="handle"
-                  className="block text-xs font-bold uppercase tracking-wider text-df-fg/70"
+                  className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-400"
                 >
-                  Your @handle
+                  Social @Handle
                 </label>
                 <input
                   id="handle"
                   type="text"
                   maxLength={30}
-                  placeholder="@handle (Instagram, X, LinkedIn)"
+                  placeholder="@alexbuilds"
                   value={data.handle}
                   onChange={(e) => onChange({ handle: e.target.value })}
-                  className="mt-1.5 w-full rounded-xl border border-df-border bg-df-bg-raised px-3 py-2 text-sm font-bold text-df-fg shadow-xs outline-none transition-all focus:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue"
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/50 px-3.5 py-2 text-sm font-mono font-bold text-white outline-none focus:border-[#4285F4]"
                 />
               </div>
             </div>
 
-            {/* Layout Toggle (Creator vs Ticket) */}
+            {/* Layout Hardware Segmented Switcher */}
             <div>
-              <span className="block text-xs font-bold uppercase tracking-wider text-df-fg/70">
-                Layout
+              <span className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                Card Architecture
               </span>
               <div
                 role="radiogroup"
                 aria-label="Layout"
-                className="mt-1.5 flex gap-1 rounded-xl border border-df-border bg-df-bg-raised p-1"
+                className="mt-1.5 flex gap-1 rounded-xl border border-white/10 bg-black/50 p-1"
               >
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={data.layout === 'creator'}
-                  onClick={() => onChange({ layout: 'creator' })}
-                  className={`flex-1 rounded-lg px-2.5 py-1.5 text-left text-xs font-black transition-all ${
-                    data.layout === 'creator'
-                      ? 'bg-df-fg text-df-bg shadow-xs'
-                      : 'text-df-fg/70 hover:text-df-fg'
-                  }`}
-                >
-                  Creator
-                  <span className="block text-[10px] font-normal opacity-70">
-                    big photo + @handle
-                  </span>
-                </button>
-
                 <button
                   type="button"
                   role="radio"
                   aria-checked={data.layout === 'ticket'}
                   onClick={() => onChange({ layout: 'ticket' })}
-                  className={`flex-1 rounded-lg px-2.5 py-1.5 text-left text-xs font-black transition-all ${
+                  className={`flex-1 rounded-lg px-3 py-2 text-left text-xs font-black transition-all cursor-pointer ${
                     data.layout === 'ticket'
-                      ? 'bg-df-fg text-df-bg shadow-xs'
-                      : 'text-df-fg/70 hover:text-df-fg'
+                      ? 'bg-white text-black shadow-md'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  Ticket
-                  <span className="block text-[10px] font-normal opacity-70">
-                    event pass with QR
+                  Boarding Ticket
+                  <span className="block text-[10px] font-mono font-normal opacity-70">
+                    perforations, telemetry & QR
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={data.layout === 'creator'}
+                  onClick={() => onChange({ layout: 'creator' })}
+                  className={`flex-1 rounded-lg px-3 py-2 text-left text-xs font-black transition-all cursor-pointer ${
+                    data.layout === 'creator'
+                      ? 'bg-white text-black shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  VIP Creator Pass
+                  <span className="block text-[10px] font-mono font-normal opacity-70">
+                    hero photo & bold identity
                   </span>
                 </button>
               </div>
             </div>
 
-            {/* Size / Format Switcher */}
+            {/* Size & Format Switcher */}
             <div>
-              <span className="block text-xs font-bold uppercase tracking-wider text-df-fg/70">
-                Size & Format
+              <span className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                Social Target Format
               </span>
               <div
                 role="radiogroup"
                 aria-label="Size"
-                className="mt-1.5 grid grid-cols-2 gap-1 rounded-xl border border-df-border bg-df-bg-raised p-1 sm:grid-cols-4"
+                className="mt-1.5 grid grid-cols-2 gap-1 rounded-xl border border-white/10 bg-black/50 p-1 sm:grid-cols-4"
               >
                 {[
-                  { id: 'portrait', label: 'Post', desc: 'LinkedIn / IG (4:5)' },
-                  { id: 'story', label: 'Story', desc: 'Reels / Status (9:16)' },
-                  { id: 'square', label: 'Square', desc: 'Feed Post (1:1)' },
-                  { id: 'landscape', label: 'Wide', desc: 'X Post (16:9)' },
+                  { id: 'portrait', label: 'Post 4:5', desc: 'LinkedIn / IG' },
+                  { id: 'story', label: 'Story 9:16', desc: 'Reels / Status' },
+                  { id: 'square', label: 'Square 1:1', desc: 'Standard Feed' },
+                  { id: 'landscape', label: 'Wide 16:9', desc: 'X Post / Header' },
                 ].map((fmt) => {
                   const isSelected = data.format === fmt.id;
                   return (
@@ -404,14 +410,14 @@ export const EditorCard: React.FC<EditorCardProps> = ({
                       role="radio"
                       aria-checked={isSelected}
                       onClick={() => onChange({ format: fmt.id as OutputFormat })}
-                      className={`rounded-lg px-2 py-1.5 text-left text-xs font-black transition-all ${
+                      className={`rounded-lg px-2.5 py-1.5 text-left text-xs font-black transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-df-fg text-df-bg shadow-xs'
-                          : 'text-df-fg/70 hover:text-df-fg'
+                          ? 'bg-white text-black shadow-sm'
+                          : 'text-slate-400 hover:text-white'
                       }`}
                     >
                       {fmt.label}
-                      <span className="block text-[10px] font-normal opacity-70">
+                      <span className="block text-[10px] font-mono font-normal opacity-70">
                         {fmt.desc}
                       </span>
                     </button>
@@ -425,18 +431,18 @@ export const EditorCard: React.FC<EditorCardProps> = ({
               <div>
                 <label
                   htmlFor="role-select"
-                  className="block text-xs font-bold uppercase tracking-wider text-df-fg/70"
+                  className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-400"
                 >
-                  Role / Identity
+                  Technical Role
                 </label>
                 <select
                   id="role-select"
                   value={data.role}
                   onChange={(e) => onChange({ role: e.target.value })}
-                  className="mt-1.5 w-full rounded-xl border border-df-border bg-df-bg-raised px-3 py-2 text-sm font-bold text-df-fg shadow-xs outline-none transition-all focus:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue"
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/50 px-3 py-2 text-sm font-bold text-white outline-none focus:border-[#4285F4]"
                 >
                   {event.roles.map((r) => (
-                    <option key={r.id} value={r.label}>
+                    <option key={r.id} value={r.label} className="bg-[#0e1322] text-white">
                       {r.label}
                     </option>
                   ))}
@@ -446,18 +452,18 @@ export const EditorCard: React.FC<EditorCardProps> = ({
               <div>
                 <label
                   htmlFor="track-select"
-                  className="block text-xs font-bold uppercase tracking-wider text-df-fg/70"
+                  className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-400"
                 >
-                  Favorite track
+                  Primary Tech Track
                 </label>
                 <select
                   id="track-select"
                   value={data.trackId}
                   onChange={(e) => onChange({ trackId: e.target.value })}
-                  className="mt-1.5 w-full rounded-xl border border-df-border bg-df-bg-raised px-3 py-2 text-sm font-bold text-df-fg shadow-xs outline-none transition-all focus:border-google-blue focus-visible:ring-2 focus-visible:ring-google-blue"
+                  className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/50 px-3 py-2 text-sm font-bold text-white outline-none focus:border-[#4285F4]"
                 >
                   {event.tracks.map((t) => (
-                    <option key={t.id} value={t.id}>
+                    <option key={t.id} value={t.id} className="bg-[#0e1322] text-white">
                       {t.icon} {t.label}
                     </option>
                   ))}
@@ -470,18 +476,18 @@ export const EditorCard: React.FC<EditorCardProps> = ({
               <div className="flex items-center justify-between">
                 <span
                   id="stickers-label"
-                  className="block text-xs font-bold uppercase tracking-wider text-df-fg/70"
+                  className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-400"
                 >
-                  Stickers
+                  Certification Skill Badges
                 </span>
-                <span className="text-[11px] font-bold text-df-fg/50">
+                <span className="text-[11px] font-mono text-[#8AB4F8]">
                   ({data.stickers.length} of 3 selected)
                 </span>
               </div>
               <div
                 role="group"
                 aria-labelledby="stickers-label"
-                className="mt-2 flex flex-wrap gap-1.5"
+                className="mt-2 flex flex-wrap gap-2"
               >
                 {event.stickers.map((s) => {
                   const isChecked = data.stickers.includes(s.id);
@@ -491,15 +497,15 @@ export const EditorCard: React.FC<EditorCardProps> = ({
                       type="button"
                       aria-pressed={isChecked}
                       onClick={() => toggleSticker(s.id)}
-                      className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition-all active:scale-95 ${
+                      className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition-all active:scale-95 cursor-pointer ${
                         isChecked
-                          ? 'border-google-blue bg-google-blue text-white shadow-xs'
-                          : 'border-df-border bg-df-bg-raised text-df-fg hover:border-df-fg/40'
+                          ? 'border-[#4285F4] bg-[#4285F4] text-white shadow-[0_0_15px_rgba(66,133,244,0.4)]'
+                          : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/30 hover:bg-white/10'
                       }`}
                     >
                       <span aria-hidden="true">{s.emoji}</span>
                       <span>{s.label}</span>
-                      {isChecked && <Check className="w-3 h-3 ml-0.5" />}
+                      {isChecked && <Check className="w-3.5 h-3.5 ml-0.5" />}
                     </button>
                   );
                 })}

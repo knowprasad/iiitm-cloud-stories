@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BadgeFormData, EventConfig } from '../types/badge';
 import { copyToClipboard, getLinkedInShareUrl, getXShareUrl } from '../utils/share';
-import { Download, Copy, Check, ChevronRight, ExternalLink, Loader2 } from 'lucide-react';
+import { Download, Copy, Check, ChevronRight, ExternalLink, Loader2, Sparkles } from 'lucide-react';
 
 interface ActionButtonsProps {
   data: BadgeFormData;
@@ -35,36 +35,37 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
   const xUrl = getXShareUrl(caption);
 
   return (
-    <div className="mt-6 border-t border-df-border/60 pt-5 space-y-4">
-      {/* 1. Primary Big CTA: Share my badge */}
+    <div className="mt-6 border-t border-white/10 pt-5 space-y-4">
+      {/* 1. Primary Big Hyper-Glow CTA */}
       <button
         type="button"
         disabled={isExporting}
         onClick={onShare}
-        className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-df-yellow px-5 py-3.5 text-sm font-black uppercase tracking-wider text-df-ink shadow-xl transition-all hover:scale-[1.015] active:scale-95 disabled:opacity-50 sm:text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-df-blue cursor-pointer"
+        className="relative group flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#FBBC04] via-[#FFD27A] to-[#FBBC04] px-6 py-4 text-sm font-black uppercase tracking-wider text-black shadow-[0_0_35px_rgba(251,188,4,0.4)] transition-all hover:scale-[1.015] active:scale-95 disabled:opacity-50 sm:text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FBBC04] cursor-pointer"
       >
         {isExporting ? (
           <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            <span>Generating High-Res Badge...</span>
+            <Loader2 className="w-5 h-5 animate-spin text-black" />
+            <span>Rendering High-Res Master...</span>
           </>
         ) : (
           <>
             <span className="text-xl">🚀</span>
-            <span>Share my badge</span>
+            <span>Mint & Share Badge</span>
+            <Sparkles className="w-4 h-4 text-black group-hover:rotate-12 transition-transform" />
           </>
         )}
       </button>
 
       {/* 2. Secondary Row: Download, LinkedIn, X */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2.5">
         <button
           type="button"
           disabled={isExporting}
           onClick={onDownload}
-          className="flex items-center justify-center gap-1.5 rounded-xl border border-df-border bg-df-bg px-3 py-2.5 text-xs font-bold text-df-fg transition-all hover:border-df-fg/50 hover:bg-df-bg-raised active:scale-95 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+          className="flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-xs font-bold text-white transition-all hover:bg-white/10 hover:border-white/30 active:scale-95 disabled:opacity-50 cursor-pointer"
         >
-          <Download className="w-3.5 h-3.5 text-google-blue" />
+          <Download className="w-3.5 h-3.5 text-[#4285F4]" />
           <span>Download</span>
         </button>
 
@@ -72,7 +73,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
           href={linkedInUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-1.5 rounded-xl border border-df-border bg-df-bg px-3 py-2.5 text-xs font-bold text-df-fg transition-all hover:border-df-fg/50 hover:bg-df-bg-raised active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+          className="flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-xs font-bold text-white transition-all hover:bg-white/10 hover:border-white/30 active:scale-95 cursor-pointer"
         >
           <span className="text-[#0a66c2] font-black">in</span>
           <span>LinkedIn</span>
@@ -82,9 +83,9 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
           href={xUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-1.5 rounded-xl border border-df-border bg-df-bg px-3 py-2.5 text-xs font-bold text-df-fg transition-all hover:border-df-fg/50 hover:bg-df-bg-raised active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+          className="flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-xs font-bold text-white transition-all hover:bg-white/10 hover:border-white/30 active:scale-95 cursor-pointer"
         >
-          <span className="font-black text-df-fg">𝕏</span>
+          <span className="font-black text-white">𝕏</span>
           <span>Post</span>
         </a>
       </div>
@@ -93,37 +94,37 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       {statusMessage && (
         <p
           role="status"
-          className="min-h-5 text-center text-xs font-bold text-google-green animate-fade-in"
+          className="min-h-5 text-center text-xs font-mono font-bold text-[#34A853] animate-fade-in"
         >
           {statusMessage}
         </p>
       )}
 
       {/* 4. Expandable Social Caption Preview */}
-      <details className="group border-t border-df-border/40 pt-2">
-        <summary className="cursor-pointer list-none rounded-md text-xs font-bold text-df-fg/70 hover:text-df-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue flex items-center gap-1 select-none py-1">
+      <details className="group border-t border-white/10 pt-2">
+        <summary className="cursor-pointer list-none rounded-md text-xs font-mono font-bold text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 select-none py-1.5">
           <ChevronRight className="w-3.5 h-3.5 transition-transform group-open:rotate-90" />
-          <span>See caption to copy</span>
+          <span>Verified Social Caption</span>
         </summary>
 
-        <div className="mt-2 space-y-2">
-          <p className="whitespace-pre-wrap rounded-xl border border-df-border/70 bg-df-bg p-3.5 text-xs leading-relaxed text-df-fg/80 font-mono">
+        <div className="mt-2.5 space-y-2.5">
+          <p className="whitespace-pre-wrap rounded-xl border border-white/10 bg-black/50 p-4 text-xs leading-relaxed text-slate-300 font-mono">
             {caption}
           </p>
           <button
             type="button"
             onClick={handleCopyCaption}
-            className="flex items-center justify-center gap-2 rounded-xl border border-df-border bg-df-bg hover:bg-df-bg-raised px-3.5 py-2 text-xs font-bold text-df-fg transition-all active:scale-95 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+            className="flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 px-4 py-2.5 text-xs font-mono font-bold text-white transition-all active:scale-95 w-full cursor-pointer"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-google-green" />
-                <span className="text-google-green">Caption Copied to Clipboard!</span>
+                <Check className="w-4 h-4 text-[#34A853]" />
+                <span className="text-[#34A853]">CAPTION COPIED TO CLIPBOARD!</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-df-fg/60" />
-                <span>Copy caption</span>
+                <Copy className="w-4 h-4 text-slate-400" />
+                <span>COPY FORMATTED CAPTION</span>
               </>
             )}
           </button>
@@ -131,23 +132,23 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
       </details>
 
       {/* 5. Ticket / Registration Callout */}
-      <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-df-yellow/30 bg-df-yellow/10 p-3.5 text-center sm:flex-row sm:text-left">
+      <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-2xl border border-[#FBBC04]/20 bg-[#FBBC04]/5 p-4 text-center sm:flex-row sm:text-left">
         <div>
-          <div className="text-xs font-black text-df-fg">
-            Haven’t registered for Study Jams yet?
+          <div className="text-xs font-mono font-black text-white">
+            NOT REGISTERED FOR STUDY JAMS YET?
           </div>
-          <div className="text-[11px] text-df-fg/70">
-            Registration & lab seats are open on GDG Community platform.
+          <div className="text-[11px] text-slate-400 mt-0.5">
+            Claim official Qwiklabs credits & community access pass.
           </div>
         </div>
         <a
           href={event.registrationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 shrink-0 rounded-xl bg-df-fg px-3.5 py-2 text-xs font-bold text-df-bg transition-colors hover:bg-google-blue hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-google-blue"
+          className="inline-flex items-center gap-1.5 shrink-0 rounded-xl bg-white px-4 py-2 text-xs font-bold text-black hover:bg-[#4285F4] hover:text-white transition-all shadow-sm cursor-pointer"
         >
-          <span>Register Now</span>
-          <ExternalLink className="w-3 h-3" />
+          <span>Claim Pass</span>
+          <ExternalLink className="w-3.5 h-3.5" />
         </a>
       </div>
     </div>

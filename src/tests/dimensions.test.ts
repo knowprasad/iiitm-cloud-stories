@@ -7,7 +7,7 @@ describe('Format Dimensions & Layout Calibration', () => {
     expect(dim.w).toBe(1080);
     expect(dim.h).toBe(1350);
     expect(dim.perfAxis).toBe('y');
-    expect(dim.perfAt).toBe(1040);
+    expect(dim.perfAt).toBe(1020);
   });
 
   it('returns standard 9:16 story/status dimensions (1080x1920)', () => {

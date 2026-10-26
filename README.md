@@ -18,6 +18,22 @@ Sharing is optional. The card does not register a participant or award a credent
 
 The supplied chapter logo lives at `public/gdg-iiitm-gwalior.png` and is used in the page header and all three exported cards. `src/config/storyEvent.ts` fixes the campus name, official social links, three templates, and mood options. Exported cards and captions include `@gdg_oncampus_iiitm`. The footer links to Instagram and LinkedIn; the header logo opens the official GDG community chapter page. Students do not edit chapter settings.
 
+## Libraries and tools
+
+Versions below match the committed `package-lock.json`.
+
+| Library / tool | Version | Used for |
+| --- | --- | --- |
+| React and React DOM | 19.3.1 | Interactive editor, template selection, and live preview |
+| TypeScript | 5.9.3 | Type checking |
+| Vite | 6.4.5 | Local development and production builds |
+| Lucide React | 1.61.0 | Interface icons |
+| canvas-confetti | 1.9.4 | Download celebration, respecting reduced-motion preferences |
+| Vitest | 5.0.5 | Automated tests |
+| jsdom | 30.1.3 | Browser-like test environment |
+
+The Canvas API renders the cards, the Web Share API opens the device's native share menu, and the Clipboard API copies captions. These are browser APIs rather than npm libraries. The active page uses plain CSS in `src/story.css`; Tailwind CSS, PostCSS, Autoprefixer, `clsx`, `tailwind-merge`, and `qrcode` remain installed for the original badge-studio code.
+
 ## Development
 
 - `npm install`

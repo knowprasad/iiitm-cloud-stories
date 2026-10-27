@@ -6,8 +6,8 @@ The chapter name and supplied logo are fixed. The student chooses one of three c
 
 ## Visual system
 
-- Page: paper blue `#fafbff`, ink `#29364f`, cloud blue `#3762d9`, sunny yellow `#f4c459`, lavender `#a89bd6`.
-- Fredoka provides the rounded headline and cloud-card display. Plus Jakarta Sans handles controls. Caveat supplies handwritten scrapbook notes. JetBrains Mono appears in the builder card.
+- Page: neutral paper `#f8f9fa`, ink `#202124`, readable secondary ink `#526079`, link blue `#3154b6`, sunny yellow `#fbbc04`.
+- Plus Jakarta Sans handles the website headline and controls. Fredoka supplies the cloud-card display. Caveat supplies handwritten scrapbook notes. JetBrains Mono appears in the builder card.
 - Cloud buddies uses an illustrated cloud portrait and smiling cloud companions.
 - Campus scrapbook uses graph paper, a tilted instant-photo frame, tape, and handwritten captions.
 - Builder mode uses cobalt, a browser/terminal photo frame, oversize type, and small code details.
@@ -22,6 +22,10 @@ No reference artwork or paid template assets are bundled. Card illustrations are
 
 ## Behavior
 
-Thumbnails, preview, and PNG exports share a renderer. Fonts load before rendering and fall back to system fonts if unavailable. Photos are processed locally and are not persisted. Mood stickers toggle off when selected again. Crop sliders use the same geometry as the exported image. Entrance animation, decorative float, and download confetti respect reduced-motion preferences. Cards and captions include the confirmed Instagram handle `@gdg_oncampus_iiitm`; footer links include Instagram and LinkedIn, and the header logo links to the official GDG chapter page.
+Thumbnails, preview, and PNG exports share a renderer; thumbnails show the full story ratio. Fonts load before rendering and fall back to system fonts if unavailable. Photos are processed locally and are not persisted. Mood stickers toggle off when selected again. Entrance animation and download confetti respect reduced-motion preferences. Cards and captions include the confirmed Instagram handle `@gdg_oncampus_iiitm`; footer links include Instagram and LinkedIn, and the header logo links to the official GDG chapter page.
+
+The first required action, name entry, sits above the large preview on desktop and mobile. A visible link jumps to styles and photos. Copy caption has its own button in the export group, as well as a mobile shortcut, and supporting text is at least 12px except compact header/mobile descriptions. The preview and editor follow the same DOM and visual order.
+
+Photo adjustment opens beside the actual live card in a native dialog, which provides focus containment and Escape dismissal. Each template stores an independent crop. Default tall-photo framing is wider and top-aligned in shallow frames; users can zoom out to 0.5×. Card names wrap onto two readable lines, with a three-line fallback for dense scripts, in an area free of stickers. Chapter labels and handles are larger, while generic decorative microcopy has been reduced. These changes address the review's mobile entry, discoverability, crop, and name-readability findings.
 
 The Share action hands a prepared PNG to the device's native share menu, where supported. Available destinations depend on the device and installed apps. Unsupported browsers save the PNG with manual sharing instructions. Cancelling the share menu does not trigger a download.

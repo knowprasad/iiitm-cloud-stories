@@ -1,4 +1,5 @@
 import { MoodId, moods, StoryEvent, TemplateId } from '../config/storyEvent';
+import { layoutName } from './nameLayout';
 
 export interface StoryData {
   template: TemplateId;
@@ -44,6 +45,17 @@ class StoryDrawing {
     while (c.measureText(value).width > max && fitted > 16) c.font = `${weight} ${--fitted}px ${family}`;
     c.fillStyle = color;
     c.fillText(value, x, y, max);
+  }
+  name(x: number, y: number, width: number, size: number, color: string, family = BODY) {
+    const c = this.c;
+    const layout = layoutName(this.data.name, width, size, (value, fontSize) => {
+      c.font = '600 ' + fontSize + 'px ' + family;
+      return c.measureText(value).width;
+    });
+    c.save(); c.textAlign = 'center';
+    const firstBaseline = y - (layout.lines.length - 1) * layout.lineHeight / 2;
+    layout.lines.forEach((line, i) => this.text(line, x, firstBaseline + i * layout.lineHeight, layout.fontSize, color, family, 600, width));
+    c.restore();
   }
   rect(x: number, y: number, w: number, h: number, color: string, radius = 0) {
     this.c.beginPath(); this.c.roundRect(x, y, w, h, radius);
@@ -93,7 +105,8 @@ class StoryDrawing {
       const initials = d.name.trim().split(/\s+/).slice(0, 2).map(word => Array.from(word)[0] || '').join('').toLocaleUpperCase() || 'YOU';
       c.save(); c.textAlign = 'center';
       this.text(initials, x + w / 2, y + h * .56, Math.min(w, h) * .29, ink, ROUND, 500, w * .8);
-      this.text('a future cloud person', x + w / 2, y + h * .68, 25, ink, BODY, 500, w * .85);
+      this.star(x + w * .22, y + h * .25, 20, ink, .2);
+      this.star(x + w * .79, y + h * .73, 15, ink, .2);
       c.restore();
     }
   }
@@ -102,25 +115,25 @@ class StoryDrawing {
     c.save();
     c.beginPath(); c.arc(151, 211, 66, 0, Math.PI * 2); c.clip();
     c.drawImage(this.logo, 82, 142, 138, 138); c.restore();
-    this.text('GDG on Campus', 245, 197, 25, dark ? '#d6e2ff' : '#58627d', BODY, 500, 700);
-    this.text(this.data.event.chapter, 245, 241, 33, dark ? '#ffffff' : '#243457', BODY, 800, 735);
+    this.text('GDG on Campus', 245, 197, 34, dark ? '#d6e2ff' : '#445474', BODY, 600, 700);
+    this.text(this.data.event.chapter, 245, 251, 46, dark ? '#ffffff' : '#243457', BODY, 800, 735);
   }
   mood(y: number, dark = false) {
     const mood = moods.find(item => item.id === this.data.mood);
     if (!mood) return;
     const c = this.c;
-    c.save(); c.font = `600 30px ${BODY}`;
+    c.save(); c.font = `600 36px ${BODY}`;
     const value = `${mood.symbol}  ${mood.label}`;
     const width = c.measureText(value).width + 65;
-    this.rect((1080 - width) / 2, y - 43, width, 69, dark ? '#dafa80' : '#ffffff', 35);
-    c.textAlign = 'center'; this.text(value, 540, y, 30, '#28365a', BODY, 600, 750); c.restore();
+    this.rect((1080 - width) / 2, y - 45, width, 75, dark ? '#dafa80' : '#ffffff', 35);
+    c.textAlign = 'center'; this.text(value, 540, y, 36, '#28365a', BODY, 600, 750); c.restore();
   }
   footer(dark = false) {
     const c = this.c;
     c.save(); c.textAlign = 'center';
     const tag = this.data.event.instagram.trim().replace(/^@/, '');
-    this.text('New skills. Familiar faces.', 540, 1690, 30, dark ? '#ffffff' : '#34476b', BODY, 600);
-    this.text(tag ? `@${tag}` : '#GoogleCloudStudyJams', 540, 1740, 23, dark ? '#c3d2ff' : '#677998', BODY, 500);
+    this.text('See you at Study Jams.', 540, 1650, 34, dark ? '#d6e2ff' : '#445474', BODY, 500);
+    this.text(tag ? `@${tag}` : '#GoogleCloudStudyJams', 540, 1718, 48, dark ? '#ffffff' : '#243457', BODY, 700);
     c.restore();
   }
   clouds() {
@@ -133,9 +146,9 @@ class StoryDrawing {
     this.cloud(890, 560, 240, 140, '#ffffff', true);
     this.brand();
     c.textAlign = 'center';
-    this.text("I'm joining", 540, 386, 48, '#486ba1', HAND, 600);
-    this.text('Google Cloud', 540, 503, 108, '#24497e', ROUND, 600);
-    this.text('Study Jams', 540, 616, 116, '#24497e', ROUND, 600);
+    this.text("I'm joining", 540, 386, 58, '#365884', BODY, 600);
+    this.text('Google Cloud', 540, 503, 96, '#24497e', ROUND, 600);
+    this.text('Study Jams', 540, 616, 104, '#24497e', ROUND, 600);
     this.star(122, 566, 35, '#f8c64c', -.15);
     c.save(); c.translate(540, 1020); c.rotate(-.04); c.translate(-540, -1020);
     this.cloudPath(224, 738, 620, 525); c.fillStyle = '#ffffff'; c.fill();
@@ -145,8 +158,7 @@ class StoryDrawing {
     this.star(903, 1170, 49, '#f8c64c', .13);
     this.star(848, 1258, 21, '#fb9cb9');
     c.textAlign = 'center';
-    this.text(this.data.name.trim() || 'Your name here', 540, 1396, 79, '#24497e', ROUND, 600, 910);
-    this.text('see you above the ordinary ☁', 540, 1455, 32, '#52769f', HAND, 600);
+    this.name(540, 1405, 900, 90, '#24497e', ROUND);
     this.mood(1560); this.footer();
     this.cloud(-105, 1800, 600, 220, '#ffffff');
     this.cloud(655, 1790, 570, 240, '#d1e9fc');
@@ -161,27 +173,27 @@ class StoryDrawing {
     c.save(); c.translate(540, 415); c.rotate(-.035); c.textAlign = 'center';
     this.rect(-290, -102, 580, 72, '#f8c9d8', 4);
     this.text("I'm joining", 0, -48, 55, '#603d51', HAND, 700);
-    this.text('Google Cloud', 0, 72, 96, '#333d62', BODY, 800);
-    this.text('Study Jams', 0, 173, 104, '#333d62', BODY, 800); c.restore();
-    c.save(); c.translate(540, 1022); c.rotate(.055);
+    this.text('Google Cloud', 0, 72, 88, '#333d62', BODY, 800);
+    this.text('Study Jams', 0, 173, 96, '#333d62', BODY, 800); c.restore();
+    c.save(); c.translate(540, 977); c.rotate(.055);
     c.shadowColor = '#735a3b26'; c.shadowBlur = 30; c.shadowOffsetY = 14;
-    this.rect(-357, -355, 714, 830, '#ffffff', 5); c.shadowColor = 'transparent';
-    c.save(); this.rect(-325, -322, 650, 610, '#e6d9ef'); c.clip();
-    this.portrait(-325, -322, 650, 610, '#e5dcf2', '#6d5a8b'); c.restore();
-    c.textAlign = 'center'; this.text(this.data.name.trim() || 'Your name here', 0, 383, 76, '#334266', HAND, 700, 640);
-    this.text('the start of something good.', 0, 440, 30, '#8c8e97', HAND, 600, 630);
+    this.rect(-357, -355, 714, 720, '#ffffff', 5); c.shadowColor = 'transparent';
+    c.save(); this.rect(-325, -322, 650, 600, '#e6d9ef'); c.clip();
+    this.portrait(-325, -322, 650, 600, '#e5dcf2', '#6d5a8b'); c.restore();
+    c.textAlign = 'center'; this.text('my cloud era, with my campus.', 0, 333, 38, '#55617d', HAND, 600, 650);
     c.restore();
-    c.save(); c.translate(505, 675); c.rotate(-.1); c.globalAlpha = .85;
+    c.save(); c.translate(505, 630); c.rotate(-.1); c.globalAlpha = .85;
     this.rect(-155, -36, 310, 72, '#f3d16b'); c.restore();
-    c.save(); c.translate(887, 1280); c.rotate(.12);
+    c.save(); c.translate(887, 1235); c.rotate(.12);
     this.rect(-106, -43, 212, 84, '#c9dfb4', 5); c.textAlign = 'center';
     this.text('let’s do this!', 0, 15, 36, '#3d6142', HAND, 700, 190); c.restore();
     this.star(145, 828, 51, '#ed8daf', .2); this.star(930, 575, 56, '#a99cd8', .15);
-    c.save(); c.translate(115, 1365); c.rotate(-.18); c.strokeStyle = '#4c83ce'; c.lineWidth = 6;
+    c.save(); c.translate(115, 1300); c.rotate(-.18); c.strokeStyle = '#4c83ce'; c.lineWidth = 6;
     c.beginPath(); c.arc(0, 0, 55, 0, Math.PI * 2); c.stroke();
     this.circle(-17, -9, 5, '#4c83ce'); this.circle(17, -9, 5, '#4c83ce');
     c.beginPath(); c.arc(0, 2, 25, .1, Math.PI - .1); c.stroke(); c.restore();
-    this.mood(1590); this.footer();
+    this.name(540, 1430, 900, 84, '#334266');
+    this.mood(1570); this.footer();
     this.rect(70, 1825, 165, 13, '#4285f4'); this.rect(235, 1825, 165, 13, '#ea4335');
     this.rect(400, 1825, 165, 13, '#fbbc04'); this.rect(565, 1825, 165, 13, '#34a853');
   }
@@ -192,22 +204,21 @@ class StoryDrawing {
     for (let x = 0; x <= 1080; x += 90) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, 1920); c.stroke(); }
     for (let y = 0; y <= 1920; y += 90) { c.beginPath(); c.moveTo(0, y); c.lineTo(1080, y); c.stroke(); }
     c.restore(); this.brand(true);
-    this.text('> joining the build', 90, 365, 29, '#dafa80', MONO, 600);
-    this.text('Google Cloud', 83, 483, 100, '#ffffff', BODY, 800);
-    this.text('Study Jams', 83, 597, 112, '#ffffff', BODY, 800);
+    this.text("I'M JOINING", 90, 365, 50, '#dafa80', BODY, 700);
+    this.text('Google Cloud', 83, 483, 94, '#ffffff', BODY, 800);
+    this.text('Study Jams', 83, 597, 104, '#ffffff', BODY, 800);
     this.star(944, 578, 47, '#dafa80', .25);
-    c.save(); c.translate(540, 1043); c.rotate(-.022);
-    this.rect(-455, -343, 910, 785, '#142964', 22);
-    this.circle(-409, -302, 9, '#fc9292'); this.circle(-379, -302, 9, '#f8d26f'); this.circle(-349, -302, 9, '#b4e88c');
-    this.text('campus / new-cloud-person', -295, -292, 19, '#d2dcff', MONO, 500, 680);
-    c.save(); this.rect(-425, -259, 850, 510, '#bed7ff', 6); c.clip();
-    this.portrait(-425, -259, 850, 510, '#b8d4ff', '#315aa5'); c.restore();
-    this.text('hello, world. i’m', -408, 311, 23, '#a8bcff', MONO, 500, 810);
-    this.text(this.data.name.trim() || 'Your name here', -410, 390, 65, '#ffffff', BODY, 800, 820);
+    c.save(); c.translate(540, 1030); c.rotate(-.022);
+    this.rect(-455, -365, 910, 850, '#142964', 22);
+    this.circle(-409, -324, 9, '#fc9292'); this.circle(-379, -324, 9, '#f8d26f'); this.circle(-349, -324, 9, '#b4e88c');
+    this.text('IIITM / CLOUD CREW', -295, -313, 28, '#d2dcff', MONO, 500, 680);
+    c.save(); this.rect(-425, -280, 850, 550, '#bed7ff', 6); c.clip();
+    this.portrait(-425, -280, 850, 550, '#b8d4ff', '#315aa5'); c.restore();
+    this.name(0, 395, 820, 78, '#ffffff');
     c.restore();
-    c.save(); c.translate(932, 1410); c.rotate(.13); this.rect(-91, -38, 182, 76, '#ffbdce', 4);
+    c.save(); c.translate(932, 639); c.rotate(.13); this.rect(-91, -38, 182, 76, '#ffbdce', 4);
     c.textAlign = 'center'; this.text('LET’S GO ↗', 0, 12, 24, '#273c77', MONO, 700, 165); c.restore();
-    this.mood(1590, true); this.footer(true);
+    this.mood(1560, true); this.footer(true);
     this.text('{ curiosity: true }', 90, 1820, 23, '#b7caff', MONO, 500);
   }
 }
@@ -217,6 +228,7 @@ export async function renderStory(canvas: HTMLCanvasElement, data: StoryData): P
   await Promise.allSettled([
     document.fonts.load(`600 40px ${ROUND}`), document.fonts.load(`700 40px ${HAND}`),
     document.fonts.load(`800 40px ${BODY}`), document.fonts.load(`500 24px ${MONO}`),
+    document.fonts.load(`600 40px ${BODY}`),
   ]);
   const logo = await loadLogo(data.event.logo);
   canvas.width = STORY_SIZE.width; canvas.height = STORY_SIZE.height;

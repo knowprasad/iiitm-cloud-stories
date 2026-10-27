@@ -8,11 +8,15 @@ Built with React 19, TypeScript, Vite, and the Canvas API. The website layout ta
 
 ## Make a story
 
-Choose Cloud buddies, Campus scrapbook, or Builder mode. Each has its own layout and illustration style. Add a name, an optional photo, and an optional mood sticker. Tap a selected mood again to remove it. Without a photo, the card uses initials. Photo zoom and positioning are available under Adjust your photo.
+Enter your name at the top, then choose Cloud buddies, Campus scrapbook, or Builder mode. Each has its own layout and illustration style. Add an optional photo and mood sticker. Tap a selected mood again to remove it. Without a photo, the card uses initials as part of the design.
+
+Choosing a photo opens **Frame your photo**, with the actual card preview beside zoom and position controls. Each style remembers its crop independently. Portrait photos start top-aligned, with a wider crop for the shallower cloud and builder frames; zoom can go down to 0.5× to give a face more room. **Reset this crop** resets only the selected style. Crops stay in this tab and reset when a different photo is chosen.
+
+**Copy caption** is a visible action next to Share and Download; the mobile action bar includes a Caption shortcut. All cards have larger chapter details and handles, a reserved name area, and multi-line name wrapping. Common long names use two lines; dense scripts can use a third line rather than being clipped.
 
 Use **Share my story** to open your device's native share menu with the 1080 × 1920 PNG attached. Available apps depend on the phone and browser; Instagram or WhatsApp may be offered when installed. If file sharing is unavailable, the card downloads with instructions for posting it manually. **Download PNG** is also always available after entering a name. The image is prepared before the tap so the share menu retains the browser's required user activation.
 
-Sharing is optional. The card does not register a participant or award a credential. All photo processing happens in the browser; photos and names are not uploaded or stored. Inputs reset when the tab is refreshed. A short entrance animation, small decorative float, and download confetti respect reduced-motion settings.
+Sharing is optional. The card does not register a participant or award a credential. All photo processing happens in the browser; photos and names are not uploaded or stored. Inputs reset when the tab is refreshed. A short entrance animation and download confetti respect reduced-motion settings.
 
 ## Campus identity
 
